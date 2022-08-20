@@ -20,8 +20,6 @@ function UserList() {
 
     const {roleId,region,username} = JSON.parse(localStorage.getItem("token"))
 
-
-
     useEffect(()=>{
         const roleObj = {
             "1":"superadmin",
@@ -130,7 +128,6 @@ function UserList() {
             addForm.current.resetFields()
 
             //post到后端，生成id，再设置dataSource,再来做增删改查
-            //?生成到后端就直接生成ID
             axios.post(`http://localhost:3000/users`,{
                 ...res,
                 "roleState": true,
@@ -145,6 +142,7 @@ function UserList() {
             console.log(err)
         })
     }
+
     const handleChange = (item)=>{
         item.roleState = !item.roleState
         setDataSource([...dataSource])
@@ -152,6 +150,7 @@ function UserList() {
             roleState:item.roleState
         })
     }
+
     const handleUpdate = (item)=>{
         setTimeout(()=>{
             setIsUpdateVisible(true)
@@ -162,11 +161,12 @@ function UserList() {
                 //取消禁用
                 setIsUpdateDisabled(false)
             }
-            //将原有的值填上去
+            //将原有的值填 上去
             updateForm.current.setFieldsValue(item)
         },0)
         setCurrent(item)
     }
+
     const updateFormOK = (item)=>{
         //获取当前的值
         updateForm.current.validateFields().then(res=>{
@@ -183,7 +183,8 @@ function UserList() {
             }))
             setIsUpdateDisabled(!isUpdateDisabled)
             axios.patch(`http://localhost:3000/user/${current.id}`,
-                res)
+                res
+            )
         })
     }
 
@@ -223,7 +224,8 @@ function UserList() {
                 }}
             >
                 <UserForm regionList={regionList} roleList={roleList}
-                          ref={updateForm} isUpdateDisabled={isUpdateDisabled} isUpdate={true}></UserForm>
+                          ref={updateForm} isUpdateDisabled={isUpdateDisabled} isUpdate={true}>
+                </UserForm>
             </Modal>
         </div>
     );

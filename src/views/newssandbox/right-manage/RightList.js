@@ -9,7 +9,7 @@ export default function RightList() {
     useEffect(() => {
         axios.get("/rights?_embed=children").then(res => {
             const list = res.data
-
+            //为了设置没有children子项的数据没有+号
             list.forEach(item => {
                 if (item.children.length === 0) {
                     item.children = ""
@@ -83,17 +83,20 @@ export default function RightList() {
                 //   console.log('Cancel');
             },
         });
-
     }
+
     //删除
     const deleteMethod = (item) => {
         // console.log(item)
         // 当前页面同步状态 + 后端同步
         if (item.grade === 1) {
+            //满足条件的就能过滤出来(要)
             setdataSource(dataSource.filter(data => data.id !== item.id))
             axios.delete(`/rights/${item.id}`)
         }else{
+            //先把父亲过滤出来
             let list = dataSource.filter(data=>data.id===item.rightId)
+            //再把孩子删掉
             list[0].children = list[0].children.filter(data=>data.id!==item.id)
             setdataSource([...dataSource])
             axios.delete(`/children/${item.id}`)

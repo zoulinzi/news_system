@@ -4,15 +4,15 @@ axios.defaults.baseURL="http://localhost:3000"
 
 // axios.defaults.headers
 
-// axios.interceptors.request.use
-// axios.interceptors.response.use
+// axios.interceptors.request.use //请求的拦截器
+// axios.interceptors.response.use //响应的拦截器
 
 axios.interceptors.request.use(function (config) {
     // Do something before request is sent
     // 显示loading
     store.dispatch({
         type:"change_loading",
-        payload:false
+        payload:true
     })
     return config;
 }, function (error) {

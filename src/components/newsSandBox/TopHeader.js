@@ -9,13 +9,16 @@ import { createHashHistory } from "history";
 import {connect} from "react-redux";
 
 const { Header } = Layout;
+
 function TopHeader(props){
     const {role:{roleName},username} = JSON.parse(localStorage.getItem("token"))
     const history = createHashHistory()
+    
     const changeCollapsed = ()=>{
         //改变state的isCollapsed
         props.changeCollapsed()
     }
+    
     const menu = (
         // <Menu>
         //     <Menu.Item>
@@ -62,13 +65,14 @@ connect(
     mapDispatchToPeops
 )(被包装的组件)
 */
-const mapStateToProps = (
-    {CollapsedReducer:{isCollapsed}})=>{
+//参数为一个state，返回的值需要是一个对象
+const mapStateToProps = ({CollapsedReducer:{isCollapsed}}) => {
     return {
         isCollapsed
     }
 }
 
+//直接是一个对象
 const mapDispatchToProps = {
     changeCollapsed(){
         return {

@@ -35,10 +35,10 @@ export default function NewsPublish(props) {
     return (
         <div>
             <Table dataSource={props.dataSource} columns={columns}
-                   pagination={{
-                       pageSize: 5
-                   }}
-                   rowKey={item=>item.id}
+               pagination={{
+                   pageSize: 5
+               }}
+               rowKey={item=>item.id}
             />
         </div>
     )

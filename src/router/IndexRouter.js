@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {HashRouter, Route, Routes,Navigate} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import NewsSandBox from "../views/newssandbox/NewsSandBox";
 import Login from "../views/login/Login";
 import News from "../views/news/News";

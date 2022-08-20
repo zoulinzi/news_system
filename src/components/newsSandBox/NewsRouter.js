@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import Home from "../../views/newssandbox/home/Home";
 import UserList from "../../views/newssandbox/user-manage/UserList";
@@ -45,7 +45,6 @@ function NewsRouter(props){
             axios.get("/rights"),
             axios.get("/children"),
         ]).then(res => {
-            // console.log(res)
             setBackRouteList([...res[0].data, ...res[1].data])
             // console.log(BackRouteList)
         })

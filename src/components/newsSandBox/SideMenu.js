@@ -13,6 +13,7 @@ import {connect} from "react-redux";
 
 const {Sider} = Layout;
 const {SubMenu} = Menu;
+
 //模拟数组结构
 const menuList = [
     {
@@ -62,17 +63,72 @@ const iconList = {
 
 function SideMenu(props) {
     const [menu,setMenu] = useState([])
-
+    const [menuItem,setmenuItem] =useState([])
+    const navigate = useNavigate()
+    const {role:{rights}} = JSON.parse(localStorage.getItem("token"))
+    
     useEffect(()=>{
         axios.get("http://localhost:3000/rights?_embed=children").then(res=>{
             setMenu(res.data)
+            setmenuItem(res.data)
         })
     },[])
-
-    const navigate = useNavigate()
-
-    const {role:{rights}} = JSON.parse(localStorage.getItem("token"))
-
+    
+    function getItem(menuItemObj) {
+        return {
+            key:menuItemObj.key,
+            icon:iconList[menuItemObj.key],
+            //这里的children如果没有的话还是执行:后面的语句
+            children:menuItemObj.children?.length===0?undefined:getItemChildren(menuItemObj.children),
+            label:menuItemObj.title,
+        };
+    }
+    
+    function getItemChildren(children){
+        //本来以为这里是数据请求的时间问题，结果是传入的就是undefined
+        if (!children){ //这里是控制子项的右标志
+            return undefined
+        }
+        let arr = []
+        let array = []
+        children?.map(child=>{
+            arr.push(child)
+        })
+        arr.map(item=>{
+            if (item.pagepermisson){
+                array.push(getItem(item))
+            }
+        })
+        return array
+    }
+    
+    const items = menuItem.map(item=>getItem(item))
+    
+    /*
+    //源代码
+    function getItem(label, key, icon, children) {
+        return {
+            key,
+            icon,
+            children,
+            label,
+        };
+    }
+    
+    const items = [
+        getItem('Option 1', '1', <SettingOutlined />),
+        getItem('Option 2', '2', <SettingOutlined />),
+        getItem('User', 'sub1', <SettingOutlined />, [
+            getItem('Tom', '3'),
+            getItem('Bill', '4'),
+            getItem('Alex', '5'),
+        ]),
+        getItem('Team', 'sub2', <SettingOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
+        getItem('Files', '9', <SettingOutlined />),
+    ];
+    */
+    
+    
     const checkPagePermission = (item)=>{
         return item.pagepermisson === 1 && rights.includes(item.key)
         // return item.pagepermisson
@@ -90,9 +146,11 @@ function SideMenu(props) {
             }}>{item.title}</Menu.Item>
         })
     }
+
     const location = useLocation()
     const selectKeys = [location.pathname]
     const openKeys = ["/" + location.pathname.split("/")[1]]
+
     return (
         <Sider trigger={null} collapsible collapsed={props.isCollapsed}>
             <div style={{display:"flex",height:"100%",flexDirection:"column"}}>
@@ -101,9 +159,14 @@ function SideMenu(props) {
                     {/*受控和非受控组件*/}
                     {/*受控组件：在外部组件变化后，内部组件也会跟着受影响；*/}
                     {/*非受控组件：在外部组件变化后，内部组件只跟着受第一次的影响*/}
-                    <Menu theme="light" mode="inline" selectedKeys={selectKeys}
-                    defaultOpenKeys={openKeys}>
-                        {renderMenu(menu)}
+                    {/*default会让组件变成非受控组件*/}
+                    <Menu
+                        theme="light"
+                        mode="inline"
+                        selectedKeys={selectKeys}
+                        defaultOpenKeys={openKeys}
+                        items={items}
+                        onClick={(item)=>navigate(item.key)}>
                     </Menu>
                 </div>
             </div>

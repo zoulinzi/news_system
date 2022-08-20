@@ -32,6 +32,7 @@ function NewsUpdate(){
             }
         }
     }
+    
     const handkePrevious = ()=>{
         setCurrent(current-1)
     }
@@ -69,7 +70,7 @@ function NewsUpdate(){
             //content
             //formInfo
             let {title,categoryId,content} = res.data
-            NewsForm.current.setFieldsValue({
+            NewsForm.current.setFieldsValue({ //点击更新时，把旧的值设置到更新页面中
                 title,
                 categoryId
             })

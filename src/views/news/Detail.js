@@ -10,7 +10,8 @@ export default function Detail(props) {
     const [newsInfo, setnewsInfo] = useState(null)
 
     useEffect(() => {
-        axios.get(`/news/${params.id}?_expand=category&_expand=role`).then(res => {
+        axios.get(`/news/${params.id}?_expand=category&_expand=role`)
+            .then(res => {
             setnewsInfo({
                 ...res.data,
                 view:res.data.view+1

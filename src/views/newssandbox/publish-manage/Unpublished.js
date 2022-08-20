@@ -10,7 +10,8 @@ export default function Unpublished() {
         <div>
             <NewsPublish dataSource={dataSource} button={(id)=><Button type="primary" onClick={()=>handlePublish(id)}>
                 发布
-            </Button>} ></NewsPublish>
+            </Button>} >
+            </NewsPublish>
         </div>
     )
 }

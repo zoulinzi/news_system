@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist:['LoadingReducer']
+    blacklist:['LoadingReducer'] //黑名单，不想哪些持久化
 }
 
 const reducer = combineReducers({
@@ -32,4 +32,10 @@ export {
 * store.dispatch()
 * store.subscribe()
 *
+*/
+
+
+/*
+    store.dispatch()
+    store.subscribe()
 */

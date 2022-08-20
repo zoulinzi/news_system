@@ -1,5 +1,5 @@
-import React, {Component, useEffect} from 'react';
-import {Form, Input, Button, Checkbox, message} from 'antd';
+import React, {useEffect} from 'react';
+import {Form, Input, Button,message} from 'antd';
 import './Login.css'
 import { UserOutlined,
         LockOutlined ,
@@ -20,7 +20,8 @@ function Login() {
     const onFinish = (values) => {
         axios.get(`http://localhost:3000/users?username=${values.username
         }&password=${values.password}&roleState=true&_expand=role`).then(res=>{
-            console.log(res.data)
+            //res = {id: 1, username: 'admin', password: 123456, roleState: true, default: true, …}
+            //res返回的为一个数组，数组里面存储的为对象
             if(res.data.length===0){
                 message.error("用户名或密码不匹配")
             }else{

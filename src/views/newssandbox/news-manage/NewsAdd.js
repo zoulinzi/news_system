@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import {PageHeader, Steps, Button, Form, Input, Checkbox, Select, message,notification  } from 'antd';
 import axios from 'axios'
 import './News.css'
